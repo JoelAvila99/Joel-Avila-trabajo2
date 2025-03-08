@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra tierra</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
 <!-- navegacion-->
-    <head>
+    <header>
         <nav>
             <ul>
                 <li>
@@ -20,7 +21,7 @@
                 </li>
             </ul>
         </nav>
-    </head>
+    </header>
     <main>
         <!-- presentacion -->
         <div class="menu">
@@ -63,22 +64,38 @@
             </div>
         </div>
         <!-- donacion-->
-        <h4>Ayudanos con tu donación</h4>
-        <div id="caja">
-
-        </div>
-        
-        <section id="DonacionUser">
-            <ul id="carrito"></ul>
+        <section id="dona">
+            <h4>Ayudanos con tu donación</h4>
+            <div class="seleccionDonacion">
+                <div id="caja1" class="cajita" data-nombre="Equipo africa" data-precio="10">
+                    <img src="img/africa.jpg" alt="">
+                    <h4>Equipo africa</h4>
+                    <button class="btn-donar">DONAR</button>
+                </div>
+                <div id="caja2" class="cajita" data-nombre="Equipo playa" data-precio="10">
+                    <img src="img/playa.jpg" alt="">
+                    <h4>Equipo playa</h4>
+                    <button class="btn-donar">DONAR</button>
+                </div>
+                <div id="caja3" class="cajita" data-nombre="Equipo arboles" data-precio="10">
+                    <img src="img/arbooles.jpg" alt="">
+                    <h4>Equipo arboles</h4>
+                    <button class="btn-donar">DONAR</button>
+                </div>
+            </div>
+             <section id="carro">
+                <div id="DonacionUser">
+                    <ul id="carrito"></ul>
+                </div>
+                <button id="totalDonaciones"></button>      
+            </section>
         </section>
-        <div id="totalDonaciones"></div>
-        
+      
     </main>
     <footer>
         <h4>Joel Avila</h4>
         <!-- footer -->
     </footer>
-
     <script src="bienvenida.js"></script>
 
 </body>
