@@ -1,77 +1,103 @@
-//Bienvenida a usuario
-let nombreUsuario= prompt("Bienvenido a una pagina dedicada a nuestro planeta tierra. Indicanos tu nombre")
-alert("¡Bienvenido! " + nombreUsuario)
+const cajas = document.querySelectorAll('.cajita');
+const carrito = document.getElementById('carrito');
+const totalDonaciones = document.getElementById('totalDonaciones');
 
-console.log("El nombre del usuario es " + nombreUsuario)
-
-
- /* cuestionario a usuario */
-
- let conociendoUser = parseInt(prompt("Del 1 al 10, ¿cómo te calificarías cuánto te gusta la naturaleza?"));  
-
- if (conociendoUser >= 1 && conociendoUser <= 10) {  
-     if (conociendoUser >= 8) {  
-         alert("¡Genial! Nos llevaremos muy bien.");  
-     } else {  
-         alert("Espero que esta página cambie tu parecer.");  
-     }  
- } else {  
-     alert("Ingrese un número válido entre 1 y 10.");  
- }  
-console.log(conociendoUser)
-//donacion
-
-const ayudas = [  
-    { id: 1, nombre: `Equipo playa`, precio: 10 },  
-    { id: 2, nombre: `Equipo africa`, precio: 10 },  
-    { id: 3, nombre: `Equipo arboles`, precio: 10 }  
-];  
-
-const caja = document.getElementById(`caja`);  
-const carrito = document.getElementById(`carrito`);  
-const totalDonaciones = document.getElementById(`totalDonaciones`); 
-
-// Función para mostrar las donaciones
 let total = 0;
-const MostrarDonacion = () => {  
-    ayudas.forEach(ayuda => {  
-        let carta = document.createElement(`div`);  
-        carta.innerHTML = `Has seleccionado donar a ${ayuda.nombre} y el monto es ${ayuda.precio}`;  
-        
-        const boton = document.createElement(`button`);  
-        boton.textContent = "Donar";  
-        boton.addEventListener(`click`, () => AgregarDonacion(ayuda));  
-        carta.appendChild(boton);  
-        caja.appendChild(carta);  
-    });  
-};  
 
-// Función para agregar donaciones  
-const AgregarDonacion = ayuda => {  
-    const itemCarrito = document.createElement(`li`);  
-    itemCarrito.textContent = `Carrito: ${ayuda.nombre}, Precio: ${ayuda.precio}`;   
-    carrito.appendChild(itemCarrito);  
-    
-    total += ayuda.precio;
-    totalDonaciones.textContent = `Total de donaciones: ${total}`; 
+cajas.forEach(caja => {
+    caja.addEventListener('click', (event) => {
+        if (event.target.classList.contains('btn-donar')) {
+            const nombre = caja.dataset.nombre;
+            const precio = parseInt(caja.dataset.precio);
+            Swal.fire({
+                title: "Donacion agregada",
+                icon: "success",
+                draggable: true
+              });
 
-    // Guardar en localStorage  
-    const donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];  
-    donaciones.push(ayuda);  
-    localStorage.setItem('donaciones', JSON.stringify(donaciones));  
+            const itemCarrito = document.createElement('li');
+            itemCarrito.innerHTML = `Donación a: ${nombre}, Precio: ${precio} <button class="btn-eliminar">Eliminar</button>`; // Agregar botón de eliminar
+            carrito.appendChild(itemCarrito);
 
-    // Mostrar en consola las donaciones almacenadas  
-    console.log('Donaciones en localStorage:', donaciones);  
-};  
+            total += precio;
+            totalDonaciones.textContent = `Total de donaciones: ${total}`;
 
-// Función para cargar donaciones desde localStorage al cargar la página  
-const CargarDonaciones = () => {  
-    const donacionesGuardadas = JSON.parse(localStorage.getItem('donaciones')) || [];  
-    donacionesGuardadas.forEach(ayuda => {  
-        AgregarDonacion(ayuda);  
-    });  
-};  
+            const donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+            donaciones.push({ nombre, precio });
+            localStorage.setItem('donaciones', JSON.stringify(donaciones));
+        }
+    });
+});
 
-// Llamar a MostrarDonacion para que se muestre inicialmente  
-MostrarDonacion();  
-CargarDonaciones();  // Cargar donaciones existentes  
+carrito.addEventListener('click', (event) => {
+    if (event.target.classList.contains('btn-eliminar')) {
+        const itemCarrito = event.target.parentElement;
+        const precio = parseInt(itemCarrito.textContent.split('Precio: ')[1]);
+
+        Swal.fire({
+            title: "¿Estas seguro que deseas elimiar?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, deseo elimiar la donación.",
+            cancelButtonText: "cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                carrito.removeChild(itemCarrito);
+
+                total -= precio;
+                totalDonaciones.textContent = `Total de donaciones: ${total}`;
+
+                const donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+                const nombre = itemCarrito.textContent.split('Donación a: ')[1].split(',')[0];
+                const index = donaciones.findIndex(donacion => donacion.nombre === nombre);
+                if (index !== -1) {
+                    donaciones.splice(index, 1);
+                    localStorage.setItem('donaciones', JSON.stringify(donaciones));
+                }
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "Su donacion ha sido eliminada",
+                    icon: "success"
+                });
+            }
+        });
+    }
+});
+
+const CargarDonaciones = () => {
+    const donacionesGuardadas = JSON.parse(localStorage.getItem('donaciones')) || [];
+    donacionesGuardadas.forEach(ayuda => {
+        const itemCarrito = document.createElement('li');
+        itemCarrito.innerHTML = `Donación a: ${ayuda.nombre}, Precio: ${ayuda.precio} <button class="btn-eliminar">Eliminar</button>`;
+        carrito.appendChild(itemCarrito);
+        total += ayuda.precio;
+    });
+    totalDonaciones.textContent = `Total de donaciones: ${total}`; // Actualizar el total en el DOM
+};
+
+totalDonaciones.addEventListener('click', () => {
+    Swal.fire({
+        title: "Estas seguro de completar la donación?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, deseo completar."
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Donacion completada!",
+                text: "Muchas gracias por su donación! No se olvide de seguirnos en redes social",
+                icon: "success",
+                timer:3000
+            });
+            
+            localStorage.clear(); // Limpiar localStorage
+            location.reload(); // Recargar la página
+        }
+    });
+});
+
+CargarDonaciones();
