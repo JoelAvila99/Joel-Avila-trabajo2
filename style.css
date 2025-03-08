@@ -79,11 +79,11 @@
             text-align: center;
             font-size: 20px ;
             margin-bottom: 35px;
-            color: rgb(208, 219, 230);
+            color: #dad4d4d8;
         }
 }
 .acordeon {  
-    background-color: rgb(255, 255, 255);  
+    background-color: #dad4d4d8;  
 
     label {  
         font-weight: 100;
@@ -92,7 +92,7 @@
         padding: 20px;  
         font-size: 15px;  
         background-color: rgba(0, 0, 0, 0.82);  
-        color: white;  
+        color: #dad4d4d8;  
         cursor: pointer;  
         margin-bottom: 2px;  
         transition: all 3000ms ease;  
@@ -132,58 +132,50 @@
 }  
 /*se aplica a footer*/
 footer {
-    width: 100%;
-    height: auto;
+    width: 100vw;
+    height: 100px;
     background-color: #000000;
     margin-top: 100px;
     text-align: center;
-    color: beige;
+    color: #dad4d4d8;
 }
 /*se aplica a donacion*/
 #caja {
+    margin: 3px solid black;
+}
+.seleccionDonacion {
+    margin: auto;
     display: flex;
-    justify-content: space-around;
-    gap: 30px;
-    text-align: initial;
-    padding:20px;
+    width: 800px;
+    height: 300px;
+    gap: 100px;
+    
 }
-#caja div {
-    display: flex;             
-    flex-direction: column;  
-    justify-content: flex-end; 
-    width: 150px;  
-    height: 150px;  
-    background-image: url(img/FUNDACION.png);
-    opacity: 0.9;
-    background-size: cover;
-    padding: 10px;   
-    color: #000000;
-    text-shadow: 1px 1px 4px rgb(255, 255, 255);
-    font-size: 1em;
-    font-weight: 900;
-    text-align: center;
-}
-
-h4 {
-    background-color: #00000079;
-    height: 50px;
-    font-size: 1.7em;
-
-    text-align: center;
-    color: white;
-}
-#caja div button {
+.seleccionDonacion img {
     width: 100%;
-    background-color: #00000076;
-    color: #c9bebec0;
-    margin-top:20px;
-} 
+}
+.seleccionDonacion h4 {
+    color: #dad4d4d8;
+    text-align: center;
+    background-color: #0000003b;
+    height: 30px;
+}
+.seleccionDonacion button {
+    width: 100%;
+    background-color: #ebdfdf3b;
+    color: #dad4d4d8;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
+
 #DonacionUser{
     margin: auto;
-    margin-top: 50px;
-    max-height: 400px;
+    max-height: 200px;
     overflow: scroll;
     width: 300px;
+    margin-top: 50px;
+
 }  
 #DonacionUser ul {
    display: flex;
@@ -192,11 +184,26 @@ h4 {
    padding: 1px;
    
 }
+.btn-eliminar {
+    width: 100%;
+    background-color: #ebdfdf3b;
+    color: #dad4d4d8;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 #DonacionUser ul li {
     border: 1px solid white;
     background-color: #0000008f;
 }
+#carrito {
+    color: #dad4d4d8;
+}
+
 #totalDonaciones {
-    width: 100%;
-    text-align: center;
+    height: 50px;
+    margin: auto;
+    background-color: #00000000;
+    color: #dad4d4d8;
+    display: block;
+
 }
